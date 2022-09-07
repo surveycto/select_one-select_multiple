@@ -64,7 +64,7 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
   }
 } else { // all other appearances
   removeContainer('radio')
-  if (fieldProperties.LANGUAGE !== null && isRTL(fieldProperties.LANGUAGE)) {
+  if (window.getComputedStyle(radioButtonsContainer, null).direction === 'rtl') { // Takes the calculated direction, and makes it the actual direction, which ensures everything is always on the correct side, regardless for both LTR and RTL
     radioButtonsContainer.dir = 'rtl'
   }
 
@@ -178,13 +178,4 @@ function change () {
 // If the field label or hint contain any HTML that isn't in the form definition, then the < and > characters will have been replaced by their HTML character entities, and the HTML won't render. We need to turn those HTML entities back to actual < and > characters so that the HTML renders properly. This will allow you to render HTML from field references in your field label or hint.
 function unEntity (str) {
   return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-}
-
-// Detect right-to-left languages
-function isRTL (s) {
-  var ltrChars = 'A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF' + '\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF'
-  var rtlChars = '\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC'
-  var rtlDirCheck = new RegExp('^[^' + ltrChars + ']*[' + rtlChars + ']')
-
-  return rtlDirCheck.test(s)
 }
